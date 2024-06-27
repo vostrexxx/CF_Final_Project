@@ -1,0 +1,13 @@
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Users')
+BEGIN
+	CREATE TABLE Users (
+		UserID INT PRIMARY KEY IDENTITY(1,1),
+		PhoneNumber VARCHAR(20) UNIQUE NOT NULL,
+		OTPCode VARCHAR(10)
+	);
+    PRINT 'Table has been successfully created.';
+END
+ELSE
+BEGIN
+    PRINT 'Table already exists.';
+END;

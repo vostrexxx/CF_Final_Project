@@ -106,6 +106,3 @@ ELSE
 BEGIN
     PRINT 'Table already exists.';
 END;
-
-
-
