@@ -6,6 +6,7 @@ Select * from Genres;
 Select * from Books;
 Select * from Favorites;
 Select * from CartBooks;
+Select * from Cart;
 
 DBCC CHECKIDENT ('CartBooks', RESEED, 0);
 DBCC CHECKIDENT ('Cart', RESEED, 0);
