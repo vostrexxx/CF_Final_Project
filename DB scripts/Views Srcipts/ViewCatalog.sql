@@ -13,4 +13,3 @@ BEGIN
     INNER JOIN
         Genres g ON b.GenreID = g.GenreID;
 END;
-

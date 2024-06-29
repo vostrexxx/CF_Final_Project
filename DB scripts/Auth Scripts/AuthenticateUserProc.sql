@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE AuthenticateUserProc
+﻿CREATE PROCEDURE AuthenticateUserProc
     @PhoneNumber VARCHAR(20),
     @OTPCode VARCHAR(10)
 AS
