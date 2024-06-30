@@ -4,12 +4,6 @@ ALTER PROCEDURE ViewCart
     @UserID INT
 AS
 BEGIN
-    -- Ensure there are no open cursors and drop temporary tables if they exist
-    IF OBJECT_ID('tempdb..#CartDetails') IS NOT NULL
-    BEGIN
-        DROP TABLE #CartDetails;
-    END
-    
     -- Check if a user with the given UserID exists
     IF NOT EXISTS (SELECT 1 FROM Users WHERE UserID = @UserID)
     BEGIN

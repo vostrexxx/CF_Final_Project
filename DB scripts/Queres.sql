@@ -58,4 +58,4 @@ EXEC [dbo].[SearchBooksByTitleOrAuthor] @SearchTerm = 'our';
 -- CATALOG
 EXEC ViewCatalogProc;
 -- SORT N FILT
-EXEC GetBookCatalogFilters @SortBy = 'Price', @SortOrder = 'ASC', @AuthorID = 1;
+EXEC ViewCatalogWFiltersSort @SortBy = 'Price', @SortOrder = 'ASC', @AuthorID = 1;
