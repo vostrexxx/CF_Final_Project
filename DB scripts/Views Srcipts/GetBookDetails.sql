@@ -4,14 +4,14 @@ AS
 RETURN
 (
     SELECT 
-        b.Title AS BookTitle,
-        a.Name AS AuthorName,
-        g.GenreName AS Genre,
-        b.Price,
-        b.PublicationYear,
-        b.PageCount,
-        b.BindingType,
-        b.CoverImage
+        b.Title AS BookTitle, -- The title of the book
+        a.Name AS AuthorName, -- The name of the author
+        g.GenreName AS Genre, -- The genre of the book
+        b.Price, -- The price of the book
+        b.PublicationYear, -- The year the book was published
+        b.PageCount, -- The number of pages in the book
+        b.BindingType, -- The type of binding of the book
+        b.CoverImage -- The cover image of the book
     FROM 
         Books b
     INNER JOIN

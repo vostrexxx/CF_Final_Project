@@ -1,21 +1,24 @@
-﻿ALTER PROCEDURE ViewCart
+﻿-- Altering the procedure 'ViewCart'
+ALTER PROCEDURE ViewCart
+    -- Parameter: User ID
     @UserID INT
 AS
 BEGIN
-    -- Убедимся, что нет открытых курсоров и удаляем временные таблицы
+    -- Ensure there are no open cursors and drop temporary tables if they exist
     IF OBJECT_ID('tempdb..#CartDetails') IS NOT NULL
     BEGIN
         DROP TABLE #CartDetails;
     END
     
-    -- Проверка существования пользователя с заданным UserID
+    -- Check if a user with the given UserID exists
     IF NOT EXISTS (SELECT 1 FROM Users WHERE UserID = @UserID)
     BEGIN
+        -- If user does not exist, print an error message and exit
         PRINT 'UserID ' + CAST(@UserID AS VARCHAR(10)) + ' does not exist.';
         RETURN;
     END
 
-    -- Создаем временную таблицу для хранения результатов
+    -- Create a temporary table to store the results
     CREATE TABLE #CartDetails (
         Title VARCHAR(100),
         Author VARCHAR(100),
@@ -24,7 +27,7 @@ BEGIN
         TotalPrice DECIMAL(10, 2)
     );
 
-    -- Вставляем данные во временную таблицу
+    -- Insert data into the temporary table
     INSERT INTO #CartDetails
     SELECT 
         b.Title,
@@ -43,9 +46,9 @@ BEGIN
     WHERE 
         c.UserID = @UserID;
 
-    -- Возвращаем результаты
+    -- Return the results
     SELECT * FROM #CartDetails;
 
-    -- Удаляем временную таблицу
+    -- Drop the temporary table
     DROP TABLE #CartDetails;
 END;

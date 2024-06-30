@@ -2,22 +2,22 @@
     @UserID INT
 AS
 BEGIN
-    -- Проверка существования пользователя с заданным UserID
+    -- Check for the existence of the user with the given UserID
     IF NOT EXISTS (SELECT 1 FROM Users WHERE UserID = @UserID)
     BEGIN
         PRINT 'UserID ' + CAST(@UserID AS VARCHAR(10)) + ' does not exist.';
         RETURN;
     END
 
-    -- Выбор избранных книг пользователя
+    -- Select the user's favorite books
     SELECT 
-        b.Title,
-        a.Name AS Author,
-        g.GenreName,
-        b.Price,
-        b.PublicationYear,
-        b.PageCount,
-        b.CoverImage
+        b.Title, -- The title of the book
+        a.Name AS Author, -- The name of the author
+        g.GenreName, -- The genre of the book
+        b.Price, -- The price of the book
+        b.PublicationYear, -- The year of publication
+        b.PageCount, -- The number of pages
+        b.CoverImage -- The cover image of the book
     FROM 
         Favorites f
     INNER JOIN 

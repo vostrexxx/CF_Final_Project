@@ -1,21 +1,35 @@
-﻿ALTER PROCEDURE SetOTPCode
+﻿-- Altering the procedure 'SetOTPCode'
+ALTER PROCEDURE SetOTPCode
+    -- Parameters: Phone number and OTP code
     @PhoneNumber VARCHAR(20),
-    @OTPCode VARCHAR(10)
+    @OTPCode VARCHAR(10),
+    -- Output parameter to track success
+    @Success BIT OUTPUT,
+    -- Output parameter for the message
+    @Message NVARCHAR(255) OUTPUT
 AS
 BEGIN
-    -- Проверка наличия пользователя с заданным номером телефона
+    -- Initialize as unsuccessful
+    SET @Success = 0;
+    -- Initialize error message
+    SET @Message = 'Operation failed.';
+
+    -- Check if a user with the given phone number exists
     IF NOT EXISTS (SELECT 1 FROM Users WHERE PhoneNumber = @PhoneNumber)
     BEGIN
-        -- Если пользователь не существует, выводим сообщение об ошибке
-        PRINT 'User with phone number ' + @PhoneNumber + ' does not exist.';
+        -- If user does not exist, set error message
+        SET @Message = 'User with phone number ' + @PhoneNumber + ' does not exist.';
         RETURN;
     END
 
-    -- Обновление OTP кода для указанного пользователя
+    -- Update the OTP code for the specified user
     UPDATE Users
     SET OTPCode = @OTPCode
     WHERE PhoneNumber = @PhoneNumber;
 
-    -- Вывод успешного сообщения
-    PRINT 'OTP code set successfully for user with phone number ' + @PhoneNumber + '.';
+    -- If execution reaches this point, the operation was successful
+    -- Set as successful
+    SET @Success = 1;
+    -- Set success message
+    SET @Message = 'OTP code set successfully for user with phone number ' + @PhoneNumber + '.';
 END;
