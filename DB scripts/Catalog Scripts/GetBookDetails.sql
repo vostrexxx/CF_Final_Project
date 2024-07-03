@@ -1,23 +1,29 @@
-CREATE FUNCTION dbo.GetBookDetails(@BookID INT)
+﻿ALTER FUNCTION dbo.GetBookDetails(@UserID INT, @BookID INT)
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT 
-        b.Title AS BookTitle, -- The title of the book
-        a.Name AS AuthorName, -- The name of the author
-        g.GenreName AS Genre, -- The genre of the book
-        b.Price, -- The price of the book
-        b.PublicationYear, -- The year the book was published
-        b.PageCount, -- The number of pages in the book
-        b.BindingType, -- The type of binding of the book
-        b.CoverImage -- The cover image of the book
+        b.Title AS BookTitle, -- Название книги
+        a.Name AS AuthorName, -- Имя автора
+        g.GenreName AS Genre, -- Жанр книги
+        b.Price, -- Цена книги
+        b.PublicationYear, -- Год публикации
+        b.PageCount, -- Количество страниц
+        b.BindingType, -- Тип переплета
+        b.CoverImage, -- Изображение обложки
+        CASE WHEN cb.BookID IS NOT NULL THEN 1 ELSE 0 END AS InCart, -- Содержится ли в корзине
+        CASE WHEN f.BookID IS NOT NULL THEN 1 ELSE 0 END AS IsFavorite -- Содержится ли в избранном
     FROM 
         Books b
     INNER JOIN
         Authors a ON b.AuthorID = a.AuthorID
     INNER JOIN
         Genres g ON b.GenreID = g.GenreID
+    LEFT JOIN
+        CartBooks cb ON b.BookID = cb.BookID AND cb.CartID = (SELECT CartID FROM Cart WHERE UserID = @UserID)
+    LEFT JOIN
+        Favorites f ON b.BookID = f.BookID AND f.UserID = @UserID
     WHERE
         b.BookID = @BookID
 );

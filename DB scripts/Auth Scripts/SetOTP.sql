@@ -1,5 +1,4 @@
-﻿-- Altering the procedure 'SetOTPCode'
-ALTER PROCEDURE SetOTPCode
+﻿ALTER PROCEDURE SetOTPCode
     -- Parameters: Phone number and OTP code
     @PhoneNumber VARCHAR(20),
     @OTPCode VARCHAR(10),

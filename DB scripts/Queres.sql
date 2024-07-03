@@ -1,61 +1,54 @@
-﻿use CF_BookStore_VNE;
-
--- AUTH 
-EXEC AuthenticateUserProc @PhoneNumber = '1234567890', @OTPCode = '123456';
-EXEC SetOTPCode @PhoneNumber = '1234567890', @OTPCode = '123457';
-EXEC AuthenticateUserProc @PhoneNumber = '1234567890', @OTPCode = '123456';
-EXEC AuthenticateUserProc @PhoneNumber = '1234567890', @OTPCode = '123457';
-DECLARE @PhoneNumber VARCHAR(20) = '1234567890';
-DECLARE @OTPCode VARCHAR(10) = '123458';
-IF dbo.AuthenticateUserFunc(@PhoneNumber, @OTPCode) = 1
-    PRINT 'Authentication successful';
-ELSE
-    PRINT 'Authentication failed';
--- вызов ф-ции
+﻿-- Usage scenario for the AuthenticateUserFunc function
+DECLARE @IsValid BIT;
+SET @IsValid = dbo.AuthenticateUserFunc('1234567890', '5678');
+PRINT @IsValid; -- 1 if the user is authenticated, otherwise 0
+SELECT  * FROM Users;
+-- Usage scenario for the SetOTPCode procedure
 DECLARE @Success BIT;
 DECLARE @Message NVARCHAR(255);
-EXEC SetOTPCode @PhoneNumber = '1234567890', @OTPCode = '1234', @Success = @Success OUTPUT, @Message = @Message OUTPUT;
-SELECT @Success AS Success, @Message AS Message; -- Выведет значение успеха и сообщение
+EXEC SetOTPCode '1234567899212', '5678', @Success OUTPUT, @Message OUTPUT;
+PRINT @Success; -- 1 if the OTP code is set successfully, otherwise 0
+PRINT @Message; -- Message about the operation result
 
+-- Usage scenario for the AddToCart procedure
+DECLARE @Success BIT, @Message NVARCHAR(255);
+EXEC AddToCart 0, 1, 1, @Success OUTPUT, @Message OUTPUT;
+SELECT @Success AS Success, @Message AS Message;
 
--- CART
-EXEC ViewCart @UserID = 2;
-EXEC AddToCart @UserID = 2, @BookID = 3, @Quantity = 1;
-EXEC ViewCart @UserID = 2;
-EXEC RemoveFromCart @UserID = 2, @BookID = 3, @Quantity = 1;
-EXEC ViewCart @UserID = 2;			
-
+-- Usage scenario for the RemoveFromCart procedure
 DECLARE @Success BIT;
 DECLARE @Message NVARCHAR(255);
-EXEC RemoveFromCart @UserID = 1, @BookID = 1, @Quantity = 1, @Success = @Success OUTPUT, @Message = @Message OUTPUT;
-SELECT @Success AS Success, @Message AS Message; -- Выведет значение успеха и сообщение
+EXEC RemoveFromCart 1, 1, 1, @Success OUTPUT, @Message OUTPUT; -- Remove 1 copy of the book with ID 101 from the cart of the user with ID 1
+PRINT @Success; -- 1 if the removal is successful, otherwise 0
+PRINT @Message; -- Message about the operation result
 
+-- Usage scenario for the ViewCart procedure
+EXEC ViewCart 1; -- View the contents of the cart of the user with ID 1
+EXEC ViewCart 0; -- View the contents of the cart of the user with ID 0
 
--- FAVORITES
-EXEC ViewFavorites @UserID = 1;
-EXEC AddToFavorite @UserID = 1, @BookID = 4;
-EXEC ViewFavorites @UserID = 1;
-EXEC RemoveFromFavorite @UserID = 1, @BookID = 1;
-EXEC ViewFavorites @UserID = 1;
+-- Usage scenario for the GetBookDetails function
+SELECT * FROM dbo.GetBookDetails(1, 1); -- Get the details of the book with ID 1
 
+-- Usage scenario for the SearchBooksByTitleOrAuthor procedure
+EXEC SearchBooksByTitleOrAuthor 'ONE'; -- Search for books by title or author "One"
+
+-- Usage scenario for the ViewCatalogWFiltersSort procedure
+EXEC ViewCatalogWFiltersSort @MinPrice = 10, @SortBy = 'Price', @SortOrder = 'DESC';
+EXEC ViewCatalogWFiltersSort;
+
+-- Usage scenario for the AddToFavorite procedure
 DECLARE @Success BIT;
 DECLARE @Message NVARCHAR(255);
-EXEC RemoveFromCart @UserID = 1, @BookID = 1, @Quantity = 1, @Success = @Success OUTPUT, @Message = @Message OUTPUT;
-SELECT @Success AS Success, @Message AS Message; -- Выведет значение успеха и сообщение
+EXEC AddToFavorite 4, 1, @Success OUTPUT, @Message OUTPUT; -- Add the book with ID 4 to the favorites of the user with ID 1
+PRINT @Success; -- 1 if the addition is successful, otherwise 0
+PRINT @Message; -- Message about the operation result
 
+-- Usage scenario for the RemoveFromFavorite procedure
 DECLARE @Success BIT;
 DECLARE @Message NVARCHAR(255);
-EXEC AddToFavorite @UserID = 1, @BookID = 1, @Success = @Success OUTPUT, @Message = @Message OUTPUT;
-SELECT @Success AS Success, @Message AS Message; -- Выведет значение успеха и сообщение
+EXEC RemoveFromFavorite 1, 1, @Success OUTPUT, @Message OUTPUT; -- Remove the book with ID 101 from the favorites of the user with ID 1
+PRINT @Success; -- 1 if the removal is successful, otherwise 0
+PRINT @Message; -- Message about the operation result
 
-
--- BOOK DETAILS
-SELECT * FROM dbo.GetBookDetails(1);
-
--- SEARCHING FOR TITLE OR AUTHOR
-EXEC [dbo].[SearchBooksByTitleOrAuthor] @SearchTerm = 'our';
-
--- CATALOG
-EXEC ViewCatalogProc;
--- SORT N FILT
-EXEC ViewCatalogWFiltersSort @SortBy = 'Price', @SortOrder = 'ASC', @AuthorID = 1;
+-- Usage scenario for the ViewFavorites procedure
+EXEC ViewFavorites 1; -- View the favorites of the user with ID 1

@@ -1,5 +1,4 @@
-﻿-- Altering the procedure 'RemoveFromCart'
-ALTER PROCEDURE RemoveFromCart
+﻿ALTER PROCEDURE RemoveFromCart
     -- Parameters: User ID, Book ID, and Quantity
     @UserID INT,
     @BookID INT,

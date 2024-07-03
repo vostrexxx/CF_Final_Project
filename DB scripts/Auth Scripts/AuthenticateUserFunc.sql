@@ -1,5 +1,4 @@
-﻿-- Altering the function 'AuthenticateUserFunc'
-ALTER FUNCTION AuthenticateUserFunc
+﻿ALTER FUNCTION AuthenticateUserFunc
 (
     -- Parameters: Phone number and OTP code
     @PhoneNumber VARCHAR(20),
