@@ -1,0 +1,56 @@
+
+@startuml
+
+class Users {
+  + UserID : INT <<PK>>
+  PhoneNumber : VARCHAR(20) <<Unique>>
+  OTPCode : VARCHAR(10)
+}
+
+class Authors {
+  + AuthorID : INT <<PK>>
+  Name : VARCHAR(100)
+}
+
+class Genres {
+  + GenreID : INT <<PK>>
+  GenreName : VARCHAR(50)
+}
+
+class Books {
+  + BookID : INT <<PK>>
+  # AuthorID : INT <<FK>>
+  # GenreID : INT <<FK>>
+  Price : DECIMAL(10, 2)
+  PublicationYear : INT
+  PageCount : INT
+  BindingType : VARCHAR(20)
+  CoverImage : VARCHAR(255)
+}
+
+class Favorites {
+  # UserID : INT <<FK>>
+  # BookID : INT <<FK>>
+  + {UserID, BookID} : INT <<PK>>
+}
+
+class Cart {
+  + CartID : INT <<PK>>
+  # UserID : INT <<FK>>
+}
+
+class CartBooks {
+  # CartID : INT <<FK>>
+  # BookID : INT <<FK>>
+  Quantity : INT
+  + {CartID, BookID} : INT <<PK>>
+}
+
+Users ||--o{ Favorites: "1-to-many"
+Users ||--o{ Cart: "1-to-1"
+Books ||--o{ Favorites: "1-to-many"
+Cart ||--o{ CartBooks: "1-to-many"
+Books ||--o{ CartBooks: "1-to-many"
+Authors ||--o{ Books: "1-to-many"
+Genres ||--o{ Books: "1-to-many"
+@enduml
