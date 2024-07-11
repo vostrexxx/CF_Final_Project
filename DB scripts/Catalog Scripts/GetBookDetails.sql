@@ -4,16 +4,16 @@ AS
 RETURN
 (
     SELECT 
-        b.Title AS BookTitle, -- Название книги
-        a.Name AS AuthorName, -- Имя автора
-        g.GenreName AS Genre, -- Жанр книги
-        b.Price, -- Цена книги
-        b.PublicationYear, -- Год публикации
-        b.PageCount, -- Количество страниц
-        b.BindingType, -- Тип переплета
-        b.CoverImage, -- Изображение обложки
-        CASE WHEN cb.BookID IS NOT NULL THEN 1 ELSE 0 END AS InCart, -- Содержится ли в корзине
-        CASE WHEN f.BookID IS NOT NULL THEN 1 ELSE 0 END AS IsFavorite -- Содержится ли в избранном
+        b.Title AS BookTitle, 
+        a.Name AS AuthorName, 
+        g.GenreName AS Genre, 
+        b.Price, 
+        b.PublicationYear, 
+        b.PageCount, 
+        b.BindingType,
+        b.CoverImage, 
+        CASE WHEN cb.BookID IS NOT NULL THEN 1 ELSE 0 END AS InCart, 
+        CASE WHEN f.BookID IS NOT NULL THEN 1 ELSE 0 END AS IsFavorite 
     FROM 
         Books b
     INNER JOIN
