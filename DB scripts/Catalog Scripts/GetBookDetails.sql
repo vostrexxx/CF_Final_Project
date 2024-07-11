@@ -10,9 +10,15 @@ RETURN
         b.Price, 
         b.PublicationYear, 
         b.PageCount, 
+<<<<<<< HEAD
         b.BindingType, 
         b.CoverImage, 
         CASE WHEN cb.BookID IS NOT NULL THEN 1 ELSE 0 END AS InCart,
+=======
+        b.BindingType,
+        b.CoverImage, 
+        CASE WHEN cb.BookID IS NOT NULL THEN 1 ELSE 0 END AS InCart, 
+>>>>>>> f3e3d3b71d3a9fe9ac167f9667cd0c5f290d3a49
         CASE WHEN f.BookID IS NOT NULL THEN 1 ELSE 0 END AS IsFavorite 
     FROM 
         Books b
